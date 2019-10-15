@@ -17,21 +17,38 @@ const config = {
 
 // Things to do before game loads
 function preload () {
-  this.load.image('sky', 'assets/gradient.png');
-  this.load.image('player', 'assets/player.png');
 
+  // Load image assets
+  this.load.image('player', 'assets/player.png');
+  this.load.image('floor', 'assets/floor.png');
+  this.load.image('skyline', 'assets/skyline.png');
+
+  // Create a cursor object to track key presses
   cursors = this.input.keyboard.createCursorKeys();
 }
 
 // Things that happen when the game starts
 function create() {
-  this.add.image(400, 300, 'sky');
+  // Add an image for the game background
+  this.add.image(800, 300, 'skyline');
+  // Create a static physics group and add the floor to it
+  floor = this.physics.add.staticGroup();
+  floor.create(800, 575, 'floor');
 
   // Add player sprite and give it physics properties
-  player = this.physics.add.image(100, 500, 'player');
-  player.setCollideWorldBounds(true);
+  player = this.physics.add.image(100, 400, 'player');
+  //player.setCollideWorldBounds(true);
+
+  // Make the player and floor collide
+  this.physics.add.collider(player, floor);
+
+  // Lock the camera inside the bounds of the game world and make it track the
+  // player
+  this.cameras.main.setBounds(0, 0, 1600, 600);
+  this.cameras.main.startFollow(player);
 }
 
+// Main game loop
 function update() {
 
   // Left and right motion when cursor buttons are pushed
@@ -45,10 +62,13 @@ function update() {
 
   console.log
   // Vertical jump when up arrow is pushed
-  // TODO: Replace player.body.onFloor() with player.body.touching.down when we
-  // have assets for the floor.
   if (cursors.up.isDown && player.body.onFloor()) {
     player.setVelocityY(-500);
+  }
+
+  // TODO: Remove this. For debugging only.
+  if (cursors.down.isDown) {
+    console.log("Player X: " + player.x);
   }
 }
 
