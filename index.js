@@ -28,7 +28,7 @@ function preload () {
 
   // Load image assets
   this.load.image('player', 'assets/player.png');
-  // this.load.image('floor', 'assets/floor.png');
+  this.load.image('ghost', 'assets/particle.png');
 
   // Create a cursor object to track key presses
   cursors = this.input.keyboard.createCursorKeys();
@@ -60,6 +60,17 @@ function create() {
   // player
   this.cameras.main.setBounds(0, 0, WORLD.WIDTH, WORLD.HEIGHT);
   this.cameras.main.startFollow(player);
+
+  // Add ghost
+  var particles = this.add.particles('ghost');
+
+  var emitter = particles.createEmitter({
+    speed: 30,
+    scale: { start: 1, end: 0 },
+    blendMode: 'ADD'
+  });
+
+  emitter.startFollow(player);
 }
 
 // Main game loop
