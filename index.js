@@ -70,6 +70,7 @@ function create() {
     blendMode: 'ADD'
   });
 
+  // Make ghost follow player 
   emitter.startFollow(player);
 }
 
