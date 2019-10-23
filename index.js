@@ -1,3 +1,8 @@
+const WORLD = {
+  WIDTH: 1600,
+  HEIGHT: 600
+};
+
 const config = {
   type: Phaser.AUTO,
   width: 800,
@@ -38,8 +43,8 @@ function create() {
   // Add player sprite and give it physics properties
   player = this.physics.add.image(100, 400, 'player');
   player.setCollideWorldBounds(true);
-  this.physics.world.bounds.width = 1600;
-  this.physics.world.bounds.height = 600;
+  this.physics.world.bounds.width = WORLD.WIDTH;
+  this.physics.world.bounds.height = WORLD.HEIGHT;
 
   // Make the player and floor collide
   this.physics.add.collider(player, floor);
