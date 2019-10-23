@@ -22,13 +22,11 @@ const config = {
 
 // Things to do before game loads
 function preload () {
-  // Load tilemap for the background
-  this.load.tilemapTiledJSON('map', 'assets/tilemaps/background.json');
-  this.load.spritesheet('skyline', 'assets/tilemaps/tileset.png', {frameWidth: 60, frameHeight: 60});
-
   // Load image assets
   this.load.image('player', 'assets/player.png');
-  this.load.image('ghost', 'assets/particle.png');
+  this.load.image('floor', 'assets/floor.png');
+  this.load.image('skyline', 'assets/skyline.png');
+  this.load.image('particle', 'assets/particle.png');
 
   // Create a cursor object to track key presses
   cursors = this.input.keyboard.createCursorKeys();
@@ -36,17 +34,8 @@ function preload () {
 
 // Things that happen when the game starts
 function create() {
-  // Create tilemap
-  map = this.make.tilemap({key: 'map'});
-  let backgroundTiles = map.addTilesetImage('tiles', 'skyline');
-
-  // Load tiles and set up collisions with the ground.
-  skylineLayer = map.createDynamicLayer('background', backgroundTiles, 0 , 0);
-  groundLayer = map.createDynamicLayer('floor', backgroundTiles, 0 , 0);
-  groundLayer.setCollisionByExclusion([-1]);
-
   // Add player sprite and give it physics properties
-  player = this.physics.add.image(100, 300, 'player');
+  player = this.physics.add.image(100, 400, 'player');
 
   // Make the player and floor collide
   this.physics.add.collider(groundLayer, player);
@@ -70,7 +59,7 @@ function create() {
     blendMode: 'ADD'
   });
 
-  // Make ghost follow player 
+  // Make ghost follow player
   emitter.startFollow(player);
 }
 
