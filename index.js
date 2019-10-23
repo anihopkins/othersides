@@ -34,33 +34,38 @@ function preload () {
 
 // Things that happen when the game starts
 function create() {
+  // Add an image for the game background
+  this.add.image(800, 300, 'skyline');
+  // Create a static physics group and add the floor to it
+  floor = this.physics.add.staticGroup();
+  floor.create(800, 575, 'floor');
+
   // Add player sprite and give it physics properties
   player = this.physics.add.image(100, 400, 'player');
-
-  // Make the player and floor collide
-  this.physics.add.collider(groundLayer, player);
-
-  // Set world's "edges"
+  player.setCollideWorldBounds(true);
   this.physics.world.bounds.width = WORLD.WIDTH;
   this.physics.world.bounds.height = WORLD.HEIGHT;
-  player.setCollideWorldBounds(true);
 
-  // Lock the camera inside the bounds of the game world and make it track the
-  // player
-  this.cameras.main.setBounds(0, 0, WORLD.WIDTH, WORLD.HEIGHT);
-  this.cameras.main.startFollow(player);
+  // Make the player and floor collide
+  this.physics.add.collider(player, floor);
 
   // Add ghost
-  var particles = this.add.particles('ghost');
+  var particles = this.add.particles('particle');
 
   var emitter = particles.createEmitter({
-    speed: 30,
-    scale: { start: 1, end: 0 },
-    blendMode: 'ADD'
+      speed: 50,
+      scale: { start: 1, end: 0 },
+      blendMode: 'ADD'
   });
 
   // Make ghost follow player
   emitter.startFollow(player);
+
+  // Lock the camera inside the bounds of the game world and make it track the
+  // player
+  this.cameras.main.setBounds(0, 0, 1600, 600);
+  this.cameras.main.startFollow(player);
+
 }
 
 // Main game loop
@@ -75,9 +80,15 @@ function update() {
     player.setVelocityX(0)
   }
 
+  console.log
   // Vertical jump when up arrow is pushed
   if (cursors.up.isDown && player.body.onFloor()) {
     player.setVelocityY(-500);
+  }
+
+  // TODO: Remove this. For debugging only.
+  if (cursors.down.isDown) {
+    console.log("Player X: " + player.x);
   }
 }
 
