@@ -27,6 +27,7 @@ function preload () {
   this.load.image('player', 'assets/player.png');
   this.load.image('floor', 'assets/floor.png');
   this.load.image('skyline', 'assets/skyline.png');
+  this.load.image('particle', 'assets/particle.png');
 
   // Create a cursor object to track key presses
   cursors = this.input.keyboard.createCursorKeys();
@@ -49,10 +50,23 @@ function create() {
   // Make the player and floor collide
   this.physics.add.collider(player, floor);
 
+  // Add ghost
+  var particles = this.add.particles('particle');
+
+  var emitter = particles.createEmitter({
+      speed: 50,
+      scale: { start: 1, end: 0 },
+      blendMode: 'ADD'
+  });
+
+  // Make ghost follow player
+  emitter.startFollow(player);
+
   // Lock the camera inside the bounds of the game world and make it track the
   // player
   this.cameras.main.setBounds(0, 0, 1600, 600);
   this.cameras.main.startFollow(player);
+
 }
 
 // Main game loop
