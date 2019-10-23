@@ -37,7 +37,9 @@ function create() {
 
   // Add player sprite and give it physics properties
   player = this.physics.add.image(100, 400, 'player');
-  //player.setCollideWorldBounds(true);
+  player.setCollideWorldBounds(true);
+  this.physics.world.bounds.width = 1600;
+  this.physics.world.bounds.height = 600;
 
   // Make the player and floor collide
   this.physics.add.collider(player, floor);
